@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scoundrel Instructions</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Scoundrel Instructions</h1>
+        <nav>
+            <a href="index.html">Game</a>
+            <a href="instructions.html">Instructions</a>
+        </nav>
+    </header>
+    <main>
+        <h2>How to Play Scoundrel</h2>
+        <p>Scoundrel is a solitaire card game where you play as a hero fighting monsters in a dungeon.</p>
+        <h3>Card Types:</h3>
+        <ul>
+            <li>Monsters: All spades and clubs.</li>
+            <li>Weapons: All diamonds. Grow weaker with each use and persist until replaced.</li>
+            <li>Potions: All hearts.</li>
+        </ul>
+        <p>Note: Hearts and diamonds face cards (J, Q, K) are not used in this variant.</p>
+        <h3>Gameplay:</h3>
+        <ul>
+            <li>You start with 20 health.</li>
+            <li>Your hand represents the current room, starting with 4 cards. Cards are drawn automatically to refill the room to 4 cards whenever the room has only 1 card left.</li>
+            <li>Play weapons to equip them in the weapons area.</li>
+            <li>Select Bare Hands Attack or Weapon Attack to highlight the method.</li>
+            <li>Click on a monster card to attack it with the selected method.</li>
+            <li>For weapon attacks: After defeating a monster, the weapon becomes that monster's strength and the monster card is placed next to the weapon. If the weapon is weaker than the monster and hasn't been trained yet, take damage equal to the difference and transform the weapon. After training, the weapon cannot fight stronger monsters.</li>
+            <li>Flee the room: All cards in the room go to the bottom of the deck, and you draw 4 new cards. You fight no monsters when fleeing. You cannot flee two rooms in a row; fleeing becomes available again after attacking a monster, equipping a weapon, or consuming a potion.</li>
+            <li>Potions heal you by their value (e.g., an 8♥ heals 8 health).</li>
+            <li>Defeated monsters and used potions go to the discard pile. Used weapons are discarded only when replaced.</li>
+            <li>Goal: Clear all monsters from the room without dying.</li>
+        </ul>
+    </main>
+</body>
+</html>
