@@ -42,7 +42,8 @@ class Game {
         this.selectedAttack = null;
         this.discard = [];
         this.weaponTrained = false;
-        this.consecutiveFlees = 0;
+        this.absorbedMonster = null;
+        this.lastFled = false;
         this.updateDisplay();
         this.drawCard();
     }
@@ -87,7 +88,7 @@ class Game {
             if (this.weapons.value >= this.hand[monsterIndex].value) {
                 this.hand.splice(monsterIndex, 1);
                 this.weapons = null;
-                this.drawCard();
+                if (this.hand.length === 1) this.drawCard();
             } else {
                 alert('Weapon too weak!');
             }
@@ -118,7 +119,8 @@ class Game {
                 this.health -= card.value;
                 this.hand.splice(index, 1);
                 this.discard.push(card);
-                this.drawCard();
+                if (this.hand.length === 1) this.drawCard();
+                this.lastFled = false;
                 this.consecutiveFlees = 0;
             } else if (this.selectedAttack === 'weapon') {
                 if (!this.weapons) {
@@ -128,18 +130,23 @@ class Game {
                 if (this.weapons.value >= card.value) {
                     this.hand.splice(index, 1);
                     this.discard.push(card);
-                    this.weapons.value = Math.max(1, this.weapons.value - 1);
-                    this.drawCard();
-                    this.consecutiveFlees = 0;
+                    this.weapons.rank = card.rank;
+                    this.weapons.value = card.value;
+                    this.absorbedMonster = card;
+                    if (this.hand.length === 1) this.drawCard();
+                    this.lastFled = false;
                 } else {
                     if (!this.weaponTrained) {
                         const damage = card.value - this.weapons.value;
                         this.health -= damage;
-                        this.weapons.value = Math.max(1, this.weapons.value - 1);
+                        this.weapons.rank = card.rank;
+                        this.weapons.value = card.value;
                         this.weaponTrained = true;
                         this.hand.splice(index, 1);
                         this.discard.push(card);
-                        this.drawCard();
+                        this.absorbedMonster = card;
+                        if (this.hand.length === 1) this.drawCard();
+                        this.lastFled = false;
                         this.consecutiveFlees = 0;
                     } else {
                         alert('Weapon too weak!');
@@ -152,31 +159,31 @@ class Game {
             if (card.type === 'weapon') {
                 this.weapons = card;
                 this.weaponTrained = false;
+                this.absorbedMonster = null;
             } else if (card.type === 'potion') {
-                this.health = Math.min(20, this.health + 1);
+                this.health = Math.min(20, this.health + card.value);
                 this.discard.push(card);
             }
+            this.lastFled = false;
             this.hand.splice(index, 1);
+            if (this.hand.length === 1) this.drawCard();
         }
         this.updateDisplay();
         this.checkGameOver();
     }
 
     flee() {
-        if (this.consecutiveFlees >= 1) {
+        if (this.lastFled) {
             alert('Cannot flee consecutively!');
             return;
         }
-        const monsterIndex = this.hand.findIndex(c => c.type === 'monster');
-        if (monsterIndex !== -1) {
-            this.health -= this.hand[monsterIndex].value;
-            const card = this.hand.splice(monsterIndex, 1)[0];
-            this.discard.push(card);
-            this.drawCard();
-            this.consecutiveFlees++;
-        } else {
-            alert('No monster to flee from!');
+        // Move all cards in hand to bottom of deck
+        while (this.hand.length > 0) {
+            this.deck.push(this.hand.pop());
         }
+        // Draw 4 new cards
+        this.drawCard();
+        this.lastFled = true;
         this.updateDisplay();
         this.checkGameOver();
     }
@@ -200,15 +207,15 @@ class Game {
         this.selectedAttack = null;
         this.discard = [];
         this.weaponTrained = false;
-        this.consecutiveFlees = 0;
+        this.absorbedMonster = null;
+        this.lastFled = false;
         this.updateDisplay();
         this.drawCard();
     }
 
     updateDisplay() {
         document.getElementById('health').textContent = `Health: ${this.health}`;
-        const totalCards = this.deck.length + this.hand.length + this.discard.length;
-        document.getElementById('deck').textContent = `Deck: ${this.deck.length} cards (${totalCards} total)`;
+        document.getElementById('deck').textContent = `Deck: ${this.deck.length} cards`;
 
         const handDiv = document.getElementById('hand');
         handDiv.innerHTML = '';
@@ -223,10 +230,16 @@ class Game {
         const weaponsDiv = document.getElementById('weapons');
         weaponsDiv.innerHTML = '';
         if (this.weapons) {
-            const cardDiv = document.createElement('div');
-            cardDiv.className = 'card';
-            cardDiv.innerHTML = this.weapons.getHTML();
-            weaponsDiv.appendChild(cardDiv);
+            const weaponCard = document.createElement('div');
+            weaponCard.className = 'card';
+            weaponCard.innerHTML = this.weapons.getHTML();
+            weaponsDiv.appendChild(weaponCard);
+        }
+        if (this.absorbedMonster) {
+            const monsterCard = document.createElement('div');
+            monsterCard.className = 'card';
+            monsterCard.innerHTML = this.absorbedMonster.getHTML();
+            weaponsDiv.appendChild(monsterCard);
         }
 
         const discardDiv = document.getElementById('discard');
@@ -241,12 +254,14 @@ class Game {
         // Update button highlights
         document.getElementById('bareAttack').classList.toggle('selected', this.selectedAttack === 'bare');
         document.getElementById('attack').classList.toggle('selected', this.selectedAttack === 'weapon');
+
+        // Disable flee button if cannot flee
+        document.getElementById('flee').disabled = this.lastFled;
     }
 }
 
 const game = new Game();
 
-document.getElementById('draw').onclick = () => game.drawCard();
 document.getElementById('bareAttack').onclick = () => game.selectBareAttack();
 document.getElementById('attack').onclick = () => game.selectWeaponAttack();
 document.getElementById('flee').onclick = () => game.flee();

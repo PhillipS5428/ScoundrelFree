@@ -27,6 +27,11 @@ main {
     margin: 0 auto;
 }
 
+#game h3 {
+    margin: 0.5rem 0;
+    text-align: center;
+}
+
 #hand {
     display: flex;
     justify-content: center;
@@ -68,6 +73,10 @@ main {
     color: black;
 }
 
+.suit {
+    font-size: 1.25em;
+}
+
 .room {
     border: 2px solid #000;
     padding: 1rem;
@@ -87,4 +96,9 @@ button {
 button.selected {
     background-color: #4CAF50;
     color: white;
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
