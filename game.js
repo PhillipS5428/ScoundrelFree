@@ -179,6 +179,10 @@ class Game {
             alert('Cannot flee consecutively!');
             return;
         }
+        if (this.hand.length !== 4) {
+            alert('Can only flee with a full room (4 cards)!');
+            return;
+        }
         // Move all cards in hand to bottom of deck
         while (this.hand.length > 0) {
             this.deck.unshift(this.hand.pop());
@@ -236,6 +240,12 @@ class Game {
             weaponCard.className = 'card';
             weaponCard.innerHTML = this.weapons.getHTML();
             weaponsDiv.appendChild(weaponCard);
+        } else {
+            const placeholder = document.createElement('div');
+            placeholder.className = 'card';
+            placeholder.style.visibility = 'hidden';
+            placeholder.innerHTML = '&nbsp;';
+            weaponsDiv.appendChild(placeholder);
         }
         if (this.absorbedMonster) {
             const monsterCard = document.createElement('div');
@@ -258,7 +268,7 @@ class Game {
         document.getElementById('attack').classList.toggle('selected', this.selectedAttack === 'weapon');
 
         // Disable flee button if cannot flee
-        document.getElementById('flee').disabled = this.lastFled;
+        document.getElementById('flee').disabled = this.lastFled || this.hand.length !== 4;
     }
 }
 
