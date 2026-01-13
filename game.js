@@ -129,7 +129,6 @@ class Game {
                 }
                 if (this.weapons.value >= card.value) {
                     this.hand.splice(index, 1);
-                    this.discard.push(card);
                     this.weapons.rank = card.rank;
                     this.weapons.value = card.value;
                     this.absorbedMonster = card;
@@ -143,7 +142,6 @@ class Game {
                         this.weapons.value = card.value;
                         this.weaponTrained = true;
                         this.hand.splice(index, 1);
-                        this.discard.push(card);
                         this.absorbedMonster = card;
                         if (this.hand.length === 1) this.drawCard();
                         this.lastFled = false;
@@ -157,6 +155,10 @@ class Game {
             this.selectedAttack = null; // reset after use
         } else {
             if (card.type === 'weapon') {
+                if (this.weapons) {
+                    this.discard.push(this.weapons);
+                    if (this.absorbedMonster) this.discard.push(this.absorbedMonster);
+                }
                 this.weapons = card;
                 this.weaponTrained = false;
                 this.absorbedMonster = null;
@@ -179,7 +181,7 @@ class Game {
         }
         // Move all cards in hand to bottom of deck
         while (this.hand.length > 0) {
-            this.deck.push(this.hand.pop());
+            this.deck.unshift(this.hand.pop());
         }
         // Draw 4 new cards
         this.drawCard();
