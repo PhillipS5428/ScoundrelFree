@@ -3,41 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scoundrel Instructions</title>
+    <title>Endless Dungeons Instructions</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
-        <h1>Scoundrel Instructions</h1>
+        <h1> Instructions</h1>
         <nav>
             <a href="index.html">Game</a>
             <a href="instructions.html">Instructions</a>
         </nav>
     </header>
     <main>
-        <h2>How to Play Scoundrel</h2>
-        <p>Scoundrel is a solitaire card game where you play as a hero fighting monsters in a dungeon.</p>
-        <h3>Card Types:</h3>
+        <h2>Survival Guide</h2>
+        <p>Welcome to the <strong>Endless Dungeons</strong>. Your goal is simple: navigate the entire deck of encounters without your health dropping to zero.</p>
+        
+        <h3>The Dungeon Deck</h3>
         <ul>
-            <li>Monsters: All spades and clubs.</li>
-            <li>Weapons: All diamonds. Grow weaker with each use and persist until replaced.</li>
-            <li>Potions: All hearts.</li>
+            <li><strong>Monsters (♣ & ♠):</strong> Dangerous foes. Their strength is their rank (2-10). Face cards are stronger: J=11, Q=12, K=13. <em>Aces are weak (1).</em></li>
+            <li><strong>Weapons (♦):</strong> Tools for survival. Equip them to fight back.</li>
+            <li><strong>Potions (♥):</strong> Restore your health equal to their rank.</li>
         </ul>
-        <p>Note: Hearts and diamonds face cards (J, Q, K) are not used in this variant.</p>
-        <h3>Gameplay:</h3>
+        <p><em>Note: The dungeon is stripped of high-value resources. Red face cards (J, Q, K of ♥/♦) are removed from the deck.</em></p>
+        
+        <h3>Combat & Tactics</h3>
         <ul>
-            <li>You start with 20 health.</li>
-            <li>Your hand represents the current room, starting with 4 cards. Cards are drawn automatically to refill the room to 4 cards whenever the room has only 1 card left.</li>
-            <li>select a weapon to equip it in the weapons area.</li>
-            <li>When you select a new weapon, the previous weapon is discarded.</li>
-            <li>To attach, Select Bare Hands Attack or Weapon Attack to highlight the method.</li>
-            <li>Click on a monster card to attack it with the selected method.</li>
-            <li>For weapon attacks: After defeating a monster, the weapon becomes that monster's strength and the monster card is placed next to the weapon. If the weapon is weaker than the monster and hasn't been trained yet, take damage equal to the difference and transform the weapon. After training, the weapon cannot fight stronger monsters.</li>
-            <li>Flee the room: All cards in the room go to the bottom of the deck, and you draw 4 new cards. You fight no monsters when fleeing. You cannot flee two rooms in a row; fleeing becomes available again after attacking a monster, equipping a weapon, or consuming a potion.</li>
-            <li>Potions heal you by their value (e.g., an 8♥ heals 8 health). There is a max health of 20.</li>
-            <li>Defeated monsters and used potions go to the discard pile. Used weapons are discarded only when replaced.</li>
-            <li>Goal: Clear all monsters from all the rooms without dying.</li>
+            <li><strong>The Room:</strong> You face 4 cards at a time. You must play or defeat at least 3 of them to refill the room.</li>
+            <li><strong>Bare Hands:</strong> You can always fight unarmed, but you will take damage equal to the monster's full strength.</li>
+            <li><strong>Equipping Weapons:</strong> Select a Diamond to equip it. You can only hold one weapon at a time; equipping a new one discards the old one.</li>
         </ul>
+
+        <h3>Weapon Mastery</h3>
+        <p>Weapons in Endless Dungeons have a unique <strong>Memory</strong> mechanic:</p>
+        <ul>
+            <li><strong>Victory:</strong> When you defeat a monster with a weapon of equal or greater strength, you take no damage. However, your weapon <em>dulls</em> or <em>sharpens</em> to match the strength of the defeated monster.</li>
+            <li><strong>Overexertion (Training):</strong> You may attack a monster stronger than your current weapon <strong>once</strong> per equipped weapon. You take the difference in damage, and your weapon's strength rises to match the monster.</li>
+            <li><strong>Limit:</strong> Once a weapon has been Overexerted (trained up), it cannot be used to attack stronger monsters again. It can only slay weaker foes, slowly losing power with every victory.</li>
+        </ul>
+
+        <h3>Strategic Retreat</h3>
+        <p>If a room is too dangerous, you may <strong>Flee</strong>. All 4 cards are shuffled to the bottom of the deck. You cannot flee twice in a row; you must face at least one encounter (fight, equip, or heal) before fleeing again.</p>
     </main>
 </body>
 </html>

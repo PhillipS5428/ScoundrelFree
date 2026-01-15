@@ -1,4 +1,4 @@
-// Scoundrel Game Logic
+// Endless Dungeons Game Logic
 
 class Card {
     constructor(rank, suit) {

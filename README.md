@@ -1,23 +1,24 @@
-# ScoundrelFree
+# Endless Dungeons
 
-A simple web-based implementation of the Scoundrel card game.
+A strategic web-based dungeon crawler played with a standard deck of cards. Survive the endless depths by managing your health and weapon durability.
 
-## How to Play
+## The Rules of the Dungeon
 
-Scoundrel is a solitaire card game where you battle monsters using a modified 52-card deck.
+- **Monsters (♣/♠)**: Deal damage equal to their rank. **Aces are 1**, J=11, Q=12, K=13.
+- **Weapons (♦)**: Equip to mitigate damage.
+- **Potions (♥)**: Heal up to a max of 20 HP.
 
-- **Monsters**: All spades and clubs.
-- **Weapons**: All diamonds.
-- **Potions**: All hearts.
+*Note: Red Face Cards (J, Q, K) are removed from the deck.*
 
-Note: Hearts and diamonds face cards (J, Q, K) are excluded from the deck.
+### Combat Mechanics
 
-Start with 20 health. Your hand represents the current room, starting with 4 cards. Cards are drawn automatically to refill the room to 4 cards whenever the room has only 1 card left. Play weapons to equip, potions to heal by their value. Select attack type (Bare Hands or Weapon), then click monster cards to attack. Weapons transform to defeated monsters' strength and display the absorbed monster card; training allows fighting stronger monsters once. Flee the room to send all current cards to bottom of deck and draw 4 new ones (no damage, no monster fights). You cannot flee two rooms in a row; fleeing becomes available again after attacking a monster, equipping a weapon, or consuming a potion. Defeated monsters and used potions go to discard; weapons only when replaced.
+1.  **The Room**: You face 4 cards. Clear 3 to advance.
+2.  **Weapon Memory**: When you kill a monster with a weapon, the weapon's strength becomes equal to that monster's strength. Plan your kill order carefully!
+3.  **Overexertion**: You can attack a monster stronger than your weapon **once**. You take the difference in damage, and your weapon upgrades to that monster's strength. After this, the weapon cannot attack stronger monsters again.
+4.  **Fleeing**: You can shuffle a full room of 4 cards to the bottom of the deck. You cannot flee consecutive rooms.
 
-Goal: Clear all monsters from the room without your health reaching zero.
+**Goal:** Clear the entire deck without your health reaching zero.
 
 ## Running the Game
 
 Open `index.html` in a web browser or serve the directory with a local server (e.g., `python -m http.server`).
-
-Navigate to the Game page to play, or Instructions for rules.
