@@ -2,7 +2,7 @@
 
 A strategic web-based dungeon crawler played with a standard deck of cards. Survive the endless depths by managing your health and weapon durability.
 
-Change for redeployment
+Complete a pull request to deploy changes in Netlify
 # Backlog
 Make the page refresh after each death or successful dungeon crawl (to increase total page views)
 
