@@ -7,6 +7,22 @@
     <link rel="stylesheet" href="styles.css">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7578204048237968"
      crossorigin="anonymous"></script>
+    <style>
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 5px;
+        }
+        .action-buttons button {
+            flex: 1;
+            padding: 10px 2px;
+            font-size: 0.8rem;
+        }
+        #flee {
+            flex: 0 0 50%;
+            margin: 0 auto;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -24,9 +40,11 @@
             <div id="hand"></div>
             <h3>Equipped Weapon</h3>
             <div id="weapons"></div>
-            <div style="text-align: center;">
+            <div class="action-buttons">
                 <button id="bareAttack">Bare Hands Attack</button>
                 <button id="attack">Weapon Attack</button>
+            </div>
+            <div class="action-buttons">
                 <button id="flee">Flee</button>
             </div>
             <div style="display: none;">

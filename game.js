@@ -39,7 +39,7 @@ class Game {
         this.health = 20;
         this.hand = [];
         this.weapons = null;
-        this.selectedAttack = null;
+        this.selectedAttack = 'bare';
         this.discard = [];
         this.weaponTrained = false;
         this.absorbedMonster = null;
@@ -152,7 +152,6 @@ class Game {
                     }
                 }
             }
-            this.selectedAttack = null; // reset after use
         } else {
             if (card.type === 'weapon') {
                 if (this.weapons) {
@@ -197,10 +196,10 @@ class Game {
     checkGameOver() {
         if (this.health <= 0) {
             alert('Game Over! You died.');
-            this.reset();
+            location.reload();
         } else if (this.deck.length === 0 && this.hand.filter(c => c.type === 'monster').length === 0) {
             alert('You win!');
-            this.reset();
+            location.reload();
         }
     }
 
@@ -210,7 +209,7 @@ class Game {
         this.health = 20;
         this.hand = [];
         this.weapons = null;
-        this.selectedAttack = null;
+        this.selectedAttack = 'bare';
         this.discard = [];
         this.weaponTrained = false;
         this.absorbedMonster = null;
