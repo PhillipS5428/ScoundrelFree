@@ -22,6 +22,23 @@
             flex: 0 0 50%;
             margin: 0 auto;
         }
+        #shield {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        #sword {
+            display: flex;
+            justify-content: center;
+        }
+        .equipment-area {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .equipment-slot {
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -38,11 +55,19 @@
             <div id="deck">Deck: 52 cards</div>
             <h3>Room</h3>
             <div id="hand"></div>
-            <h3>Equipped Weapon</h3>
-            <div id="weapons"></div>
+            <div class="equipment-area">
+                <div class="equipment-slot">
+                    <h3>Equipped Sword</h3>
+                    <div id="sword"></div>
+                </div>
+                <div class="equipment-slot">
+                    <h3>Equipped Shield</h3>
+                    <div id="shield"></div>
+                </div>
+            </div>
             <div class="action-buttons">
-                <button id="bareAttack">Bare Hands Attack</button>
-                <button id="attack">Weapon Attack</button>
+                <button id="quickAttack">Quick Attack</button>
+                <button id="attack">Attack + Shield</button>
             </div>
             <div class="action-buttons">
                 <button id="flee">Flee</button>

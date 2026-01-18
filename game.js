@@ -9,7 +9,9 @@ class Card {
     }
 
     getValue() {
-        if (this.rank === 'A') return 1;
+        if (this.rank === 'A') {
+            return (this.suit === '♠' || this.suit === '♣') ? 14 : 1;
+        }
         if (this.rank === 'J') return 11;
         if (this.rank === 'Q') return 12;
         if (this.rank === 'K') return 13;
@@ -18,7 +20,9 @@ class Card {
 
     getType() {
         if (this.suit === '♠' || this.suit === '♣') return 'monster';
-        if (this.suit === '♦') return 'weapon';
+        if (this.suit === '♦') {
+            return (this.rank === 'A' || this.rank === '0') ? 'sword' : 'shield';
+        }
         if (this.suit === '♥') return 'potion';
     }
 
@@ -38,10 +42,11 @@ class Game {
         this.shuffle(this.deck);
         this.health = 20;
         this.hand = [];
-        this.weapons = null;
-        this.selectedAttack = 'bare';
+        this.shield = null;
+        this.sword = new Card('0', '♦');
+        this.selectedAttack = 'quick';
         this.discard = [];
-        this.weaponTrained = false;
+        this.shieldTrained = false;
         this.absorbedMonster = null;
         this.lastFled = false;
         this.updateDisplay();
@@ -68,29 +73,29 @@ class Game {
         }
     }
 
-    selectBareAttack() {
-        this.selectedAttack = 'bare';
+    selectQuickAttack() {
+        this.selectedAttack = 'quick';
         this.updateDisplay();
     }
 
-    selectWeaponAttack() {
-        this.selectedAttack = 'weapon';
+    selectShieldAttack() {
+        this.selectedAttack = 'shield';
         this.updateDisplay();
     }
 
     attack() {
-        if (!this.weapons) {
-            alert('No weapon equipped!');
+        if (!this.shield) {
+            alert('No shield equipped!');
             return;
         }
         const monsterIndex = this.hand.findIndex(c => c.type === 'monster');
         if (monsterIndex !== -1) {
-            if (this.weapons.value >= this.hand[monsterIndex].value) {
+            if (this.shield.value >= this.hand[monsterIndex].value) {
                 this.hand.splice(monsterIndex, 1);
-                this.weapons = null;
+                this.shield = null;
                 if (this.hand.length === 1) this.drawCard();
             } else {
-                alert('Weapon too weak!');
+                alert('Shield too weak!');
             }
         } else {
             alert('No monster to attack!');
@@ -115,52 +120,64 @@ class Game {
                 alert('Select an attack type first!');
                 return;
             }
-            if (this.selectedAttack === 'bare') {
-                this.health -= card.value;
+            const attackBonus = this.sword ? this.sword.value : 0;
+
+            if (this.selectedAttack === 'quick') {
+                const damage = Math.max(0, card.value - attackBonus);
+                this.health -= damage;
                 this.hand.splice(index, 1);
                 this.discard.push(card);
                 if (this.hand.length === 1) this.drawCard();
                 this.lastFled = false;
                 this.consecutiveFlees = 0;
-            } else if (this.selectedAttack === 'weapon') {
-                if (!this.weapons) {
-                    alert('No weapon equipped!');
+            } else if (this.selectedAttack === 'shield') {
+                if (!this.shield) {
+                    alert('No shield equipped!');
                     return;
                 }
-                if (this.weapons.value >= card.value) {
+                const effectiveShieldValue = this.shield.value + attackBonus;
+                if (effectiveShieldValue >= card.value) {
                     this.hand.splice(index, 1);
-                    this.weapons.rank = card.rank;
-                    this.weapons.value = card.value;
+                    this.shield.rank = card.rank;
+                    this.shield.value = card.value;
                     this.absorbedMonster = card;
                     if (this.hand.length === 1) this.drawCard();
                     this.lastFled = false;
                 } else {
-                    if (!this.weaponTrained) {
-                        const damage = card.value - this.weapons.value;
+                    if (!this.shieldTrained) {
+                        const damage = card.value - effectiveShieldValue;
                         this.health -= damage;
-                        this.weapons.rank = card.rank;
-                        this.weapons.value = card.value;
-                        this.weaponTrained = true;
+                        this.shield.rank = card.rank;
+                        this.shield.value = card.value;
+                        this.shieldTrained = true;
                         this.hand.splice(index, 1);
                         this.absorbedMonster = card;
                         if (this.hand.length === 1) this.drawCard();
                         this.lastFled = false;
                         this.consecutiveFlees = 0;
                     } else {
-                        alert('Weapon too weak!');
+                        alert('Shield too weak!');
                         return;
                     }
                 }
             }
         } else {
-            if (card.type === 'weapon') {
-                if (this.weapons) {
-                    this.discard.push(this.weapons);
+            if (card.type === 'shield') {
+                if (this.shield) {
+                    this.discard.push(this.shield);
                     if (this.absorbedMonster) this.discard.push(this.absorbedMonster);
                 }
-                this.weapons = card;
-                this.weaponTrained = false;
+                this.shield = card;
+                this.shieldTrained = false;
                 this.absorbedMonster = null;
+                this.selectedAttack = 'shield';
+            } else if (card.type === 'sword') {
+                if (card.rank === 'A') {
+                    alert('You found the legendary sword!');
+                }
+                this.sword = card;
+                this.hand.splice(index, 1);
+                if (this.hand.length === 1) this.drawCard();
             } else if (card.type === 'potion') {
                 this.health = Math.min(20, this.health + card.value);
                 this.discard.push(card);
@@ -208,10 +225,11 @@ class Game {
         this.shuffle(this.deck);
         this.health = 20;
         this.hand = [];
-        this.weapons = null;
-        this.selectedAttack = 'bare';
+        this.shield = null;
+        this.sword = new Card('0', '♦');
+        this.selectedAttack = 'quick';
         this.discard = [];
-        this.weaponTrained = false;
+        this.shieldTrained = false;
         this.absorbedMonster = null;
         this.lastFled = false;
         this.updateDisplay();
@@ -232,25 +250,37 @@ class Game {
             handDiv.appendChild(cardDiv);
         });
 
-        const weaponsDiv = document.getElementById('weapons');
-        weaponsDiv.innerHTML = '';
-        if (this.weapons) {
-            const weaponCard = document.createElement('div');
-            weaponCard.className = 'card';
-            weaponCard.innerHTML = this.weapons.getHTML();
-            weaponsDiv.appendChild(weaponCard);
+        const shieldDiv = document.getElementById('shield');
+        shieldDiv.innerHTML = '';
+        if (this.shield) {
+            const shieldCard = document.createElement('div');
+            shieldCard.className = 'card';
+            shieldCard.innerHTML = this.shield.getHTML();
+            shieldDiv.appendChild(shieldCard);
         } else {
             const placeholder = document.createElement('div');
             placeholder.className = 'card';
             placeholder.style.visibility = 'hidden';
             placeholder.innerHTML = '&nbsp;';
-            weaponsDiv.appendChild(placeholder);
+            shieldDiv.appendChild(placeholder);
         }
         if (this.absorbedMonster) {
             const monsterCard = document.createElement('div');
             monsterCard.className = 'card';
             monsterCard.innerHTML = this.absorbedMonster.getHTML();
-            weaponsDiv.appendChild(monsterCard);
+            shieldDiv.appendChild(monsterCard);
+        }
+
+        const swordDiv = document.getElementById('sword');
+        swordDiv.innerHTML = '';
+        if (this.sword) {
+            const swordCard = document.createElement('div');
+            swordCard.className = 'card';
+            swordCard.innerHTML = this.sword.getHTML();
+            swordDiv.appendChild(swordCard);
+        } else {
+            // Optional: Placeholder for sword if you want it to take up space
+            swordDiv.innerHTML = '<div class="card" style="visibility:hidden">&nbsp;</div>';
         }
 
         const discardDiv = document.getElementById('discard');
@@ -263,8 +293,8 @@ class Game {
         });
 
         // Update button highlights
-        document.getElementById('bareAttack').classList.toggle('selected', this.selectedAttack === 'bare');
-        document.getElementById('attack').classList.toggle('selected', this.selectedAttack === 'weapon');
+        document.getElementById('quickAttack').classList.toggle('selected', this.selectedAttack === 'quick');
+        document.getElementById('attack').classList.toggle('selected', this.selectedAttack === 'shield');
 
         // Disable flee button if cannot flee
         document.getElementById('flee').disabled = this.lastFled || this.hand.length !== 4;
@@ -273,6 +303,6 @@ class Game {
 
 const game = new Game();
 
-document.getElementById('bareAttack').onclick = () => game.selectBareAttack();
-document.getElementById('attack').onclick = () => game.selectWeaponAttack();
+document.getElementById('quickAttack').onclick = () => game.selectQuickAttack();
+document.getElementById('attack').onclick = () => game.selectShieldAttack();
 document.getElementById('flee').onclick = () => game.flee();
