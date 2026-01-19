@@ -178,3 +178,23 @@ button.selected {
     border-color: #fff;
     font-weight: bold;
 }
+
+/* Mobile Responsiveness */
+@media (max-width: 600px) {
+    #hand {
+        flex-wrap: nowrap;
+        padding: 10px 5px;
+    }
+
+    #hand .card {
+        flex: 1 1 0;
+        width: auto;
+        height: auto;
+        aspect-ratio: 5 / 7;
+        margin: 3px;
+        min-width: 0;
+    }
+
+    .card-corner { font-size: 0.8rem; }
+    .card-center { font-size: 2rem; }
+}
