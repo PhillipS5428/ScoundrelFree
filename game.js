@@ -182,17 +182,19 @@ class Game {
                 this.shieldTrained = false;
                 this.absorbedMonster = null;
                 this.selectedAttack = 'shield';
+                this.hand.splice(index, 1);
             } else if (card.type === 'sword') {
                 if (card.rank === 'A') {
                     alert('You found the legendary sword!');
                 }
                 this.sword = card;
+                this.hand.splice(index, 1);
             } else if (card.type === 'potion') {
                 this.health = Math.min(20, this.health + card.value);
                 this.discard.push(card);
+                this.hand.splice(index, 1);
             }
             this.lastFled = false;
-            this.hand.splice(index, 1);
             if (this.hand.length === 1) this.drawCard();
         }
         this.updateDisplay();

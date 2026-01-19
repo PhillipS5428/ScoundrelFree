@@ -5,10 +5,6 @@ A strategic web-based dungeon crawler played with a standard deck of cards. Surv
 Complete a merge into main to auto-deploy changes in Netlify. 
 
 # Backlog
-Beautify the look of the page.
-
-See if there is a way to, when on mobile, 'snap' the screen to the game. 
-
 Add a game over screen.
 
 Add a victory screen.
@@ -33,7 +29,7 @@ Open `index.html` in a web browser or serve the directory with a local server (e
 
 
 Complete work
-2026-01-19 Fixed weapon eqippping bug
+2026-01-19 Beautify the look of the page. When on mobile, 'snap' the screen to the game. Fixed weapon eqippping bug.
 2026-01-18 Add a starting equipment: 0 of Diamonds (Basic Sword) with 0 attack bonus.
 2026-01-18 Make the ace of diamonds a sword, which increases all attacks by 1 until the game ends.
 2026-01-18 Implement change: When you select a shield, the attack type automatically changes to attack with shield.
