@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Endless Dungeons Card Game</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style.css">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7578204048237968"
      crossorigin="anonymous"></script>
     <style>
@@ -43,7 +44,7 @@
 </head>
 <body>
     <header>
-        <h1>Endless Dungeons</h1>
+        <img src="images/logo.png" alt="Endless Dungeons" class="logo">
         <nav>
             <a href="index.html">Game</a>
             <a href="instructions.html">Instructions</a>
@@ -51,8 +52,10 @@
     </header>
     <main>
         <div id="game">
-            <div id="health">Health: 20</div>
-            <div id="deck">Deck: 52 cards</div>
+            <div class="stats-bar">
+                <div id="health">Health: 20</div>
+                <div id="deck">Deck: 52 cards</div>
+            </div>
             <h3>Room</h3>
             <div id="hand"></div>
             <div class="equipment-area">
