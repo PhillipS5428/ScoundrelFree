@@ -28,7 +28,17 @@ class Card {
 
     getHTML() {
         const suitClass = (this.suit === '♥' || this.suit === '♦') ? 'red' : 'black';
-        return `${this.rank}<span class="suit ${suitClass}">${this.suit}</span>`;
+        return `
+            <div class="card-corner top-left">
+                <div>${this.rank}</div>
+                <div class="suit ${suitClass}">${this.suit}</div>
+            </div>
+            <div class="card-center suit ${suitClass}">${this.suit}</div>
+            <div class="card-corner bottom-right">
+                <div>${this.rank}</div>
+                <div class="suit ${suitClass}">${this.suit}</div>
+            </div>
+        `;
     }
 
     toString() {
@@ -51,6 +61,7 @@ class Game {
         this.lastFled = false;
         this.updateDisplay();
         this.drawCard();
+        this.snapToGame();
     }
 
     createDeck() {
@@ -176,8 +187,6 @@ class Game {
                     alert('You found the legendary sword!');
                 }
                 this.sword = card;
-                this.hand.splice(index, 1);
-                if (this.hand.length === 1) this.drawCard();
             } else if (card.type === 'potion') {
                 this.health = Math.min(20, this.health + card.value);
                 this.discard.push(card);
@@ -234,6 +243,17 @@ class Game {
         this.lastFled = false;
         this.updateDisplay();
         this.drawCard();
+    }
+
+    snapToGame() {
+        if (window.innerWidth <= 768) {
+            setTimeout(() => {
+                const gameElement = document.getElementById('game');
+                if (gameElement) {
+                    gameElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 100);
+        }
     }
 
     updateDisplay() {
