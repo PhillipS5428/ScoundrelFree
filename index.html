@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Endless Dungeons Card Game</title>
-    <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="style.css">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7578204048237968"
      crossorigin="anonymous"></script>
@@ -45,12 +44,11 @@
 <body>
     <header>
         <img src="images/logo.png" alt="Endless Dungeons" class="logo">
-        <nav>
-            <a href="index.html">Game</a>
-            <a href="instructions.html">Instructions</a>
-        </nav>
     </header>
     <main>
+        <div class="intro-text">
+            <p>Welcome to Endless Dungeons! A strategic web-based dungeon crawler played with a standard deck of cards. Survive the endless depths by managing your health and weapon durability. Every card counts—choose wisely to conquer the dungeon!</p>
+        </div>
         <div id="game">
             <div class="stats-bar">
                 <div id="health">Health: 20</div>
@@ -79,6 +77,32 @@
                 <h3>Discard Pile</h3>
                 <div id="discard"></div>
             </div>
+        </div>
+        <div class="instructions-container">
+            <h2>How to Play</h2>
+
+            <h3>Game Play</h3>
+            <p>In each room, play three cards to clear the room and advance to the next. The card's effect depends on its suit and value. each card type.
+                <li>The game defaults to a Quick Attack but it will automatically choose Attack + Shield when a new shield is equipped.</li>
+                <li>To attack a monster, choose your preferred attack type and click on the moster you wish to fight.</li>
+                <h3>Card Types</h3>
+            <ul>
+                <li><strong>Monsters (♠ & ♣):</strong> Enemies that attack you. Face cards are powerful!</li>
+                <li><strong>Weapons (♦):</strong> 
+                    <ul>
+                        <li><strong>Swords (Ace/0):</strong> Increase your attack damage.</li>
+                        <li><strong>Shields (2-10, J, Q, K):</strong> Block monster attacks.</li>
+                    </ul>
+                </li>
+                <li><strong>Potions (♥):</strong> Restore your health.</li>
+            </ul>
+        
+            <h3>Combat & Actions</h3>
+            <ul>
+                <li><strong>Quick Attack:</strong> Strike with your sword. You take damage equal to the Monster's strength minus your Sword's strength.</li>
+                <li><strong>Shield Block:</strong> Defend with your shield. If your Shield + Sword is stronger than the Monster, you take no damage. The Monster becomes your new Shield.</li>
+                <li><strong>Fleeing:</strong> If the room is full (4 cards), you can flee to shuffle the room back into the deck. You cannot flee twice in a row.</li>
+            </ul>
         </div>
     </main>
     <script src="game.js"></script>

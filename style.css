@@ -30,7 +30,6 @@ header {
 .logo {
     max-height: 100px;
     width: auto;
-    margin-right: 20px;
 }
 
 nav a {
@@ -143,6 +142,10 @@ ul {
     color: #ccc;
 }
 
+#game h3 {
+    text-align: center;
+}
+
 /* Game Zones */
 #hand, #shield, #sword, #discard {
     background: rgba(0, 0, 0, 0.4);
@@ -154,6 +157,12 @@ ul {
     align-items: center;
     margin-bottom: 10px;
     border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#hand {
+    width: 464px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* Buttons */
@@ -182,6 +191,7 @@ button.selected {
 /* Mobile Responsiveness */
 @media (max-width: 600px) {
     #hand {
+        width: auto;
         flex-wrap: nowrap;
         padding: 10px 5px;
     }
@@ -197,4 +207,39 @@ button.selected {
 
     .card-corner { font-size: 0.8rem; }
     .card-center { font-size: 2rem; }
+}
+
+/* Intro Text */
+.intro-text {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #e0e0e0;
+    margin: 20px auto;
+    max-width: 800px;
+    line-height: 1.6;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+}
+
+/* Instructions Section */
+.instructions-container {
+    background-color: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 30px;
+    margin-top: 50px;
+    margin-bottom: 30px;
+    color: #ddd;
+}
+
+.instructions-container h2 {
+    color: #d4af37;
+    border-bottom: 1px solid #555;
+    padding-bottom: 10px;
+    margin-top: 0;
+}
+
+.instructions-container h3 {
+    color: #fff;
+    margin-top: 20px;
+    margin-bottom: 10px;
 }
