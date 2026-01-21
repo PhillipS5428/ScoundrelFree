@@ -131,7 +131,7 @@ ul {
 }
 
 #health {
-    font-size: 2rem;
+    font-size: 1.5rem;
     color: #ff5555;
     font-weight: bold;
     text-shadow: 0 2px 4px rgba(0,0,0,0.5);
@@ -227,6 +227,14 @@ button.selected {
 
     .card-corner { font-size: 0.8rem; }
     .card-center { font-size: 2rem; }
+
+    #shield .card, #sword .card {
+        width: 70px;
+        height: 98px;
+    }
+    #shield .card-container, #sword .card-container {
+        margin: auto;
+    }
 }
 
 /* Intro Text */
