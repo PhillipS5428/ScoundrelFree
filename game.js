@@ -1,5 +1,58 @@
 // Endless Dungeons Game Logic
 
+const GAME_PLAY_TEXT = [
+    {
+        title: "Introduction",
+        html: `
+            <p>A strategic web-based dungeon crawler played with a standard deck of cards. Survive the endless depths by managing your health and weapon durability. Every card counts—choose wisely to conquer the dungeon!</p>
+        `
+    },
+    {
+        title: "Game Play",
+        html: `
+            <p>In each room, play three cards to clear the room and advance to the next. The card's effect depends on its suit and value.</p>
+            <p>The game defaults to a 'Quick Attack' but it will automatically choose 'Attack + Shield' when a new shield is equipped.</p>
+            <p>To attack a monster, choose your preferred attack type and click on the monster you wish to fight.</p>
+            <p>Select a shield (Diamonds) or potion (Hearts) to use them right away.</p>
+            <p>Shields wear out. When you first equip a shield, you may attack a stronger monster with a newly equipped shield, but you take the difference in damage. The equipped shield becomes the strength of the last monster defeated. Subsequent attacks to monsters can only be done with equal or greater shield strength.</p>
+        `
+    },
+    {
+        title: "Card Types",
+        html: `
+            <ul>
+                <li>Spade and Club cards are Monsters you must fight to clear the room. Cards valued at 2-10 hurt you according to their face value, face cards are powerful (J = 11, Q = 12, K = 13), and aces are boss monsters with a strength of 14.</li>
+                <li>Diamond cards are items (♦)
+                    <ul>
+                        <li>Swords (Ace/0) You start with a 0 power sword. Find the Legendary Sword in the dungeon to increase your attack damage by 1.</li>
+                        <li>Shields (2-10) Block monster attack damage in the amount of their face value.</li>
+                    </ul>
+                </li>
+                <li>Heart cards are Potions (♥) that restore your health. Aces restore 1 health. Cards 2-10 restore their face value.</li>
+            </ul>
+        `
+    },
+    {
+        title: "Combat & Actions",
+        html: `
+            <ul>
+                <li>Quick Attack: Strike with your sword. You take damage equal to the Monster's strength minus your Sword's strength.</li>
+                <li>Attack + Shield: Attack, but also defend with your shield. If your Sword + Shield is stronger than the Monster, you take no damage. Shields wear out so the Monster strength becomes your new Shield strength.</li>
+                <li>Flee: Part of the game's strategy. If the room is full (4 cards), you can flee to shuffle the room back into the deck. You cannot flee two rooms in a row.</li>
+            </ul>
+        `
+    },
+    {
+        title: "Examples",
+        html: `
+            <ul>
+                <li>Example: You have a 0 power sword and a newly equipped 5 power shield. You attack a 13 monster (King) using Quick Attack (unused shield). You take 13 damage (13 - 0 = 13). If you use Attack + Shield, you take 8 damage (13 - 5 = 8).</li>
+                <li>Example: You have a 1 power sword and a newly equipped 5 power shield. You attack a 13 monster (King) using Quick Attack (unused shield). You take 12 damage (13 - 1 = 12). If you use Attack + Shield, you take 7 damage (13 - 1 - 5 = 7).</li>
+                <li>Example: You just defeated an 8 monster. The shield used in the fight is now a strength of 8. That shield can now only be used to fight monsters of equal or lesser strength.</li>
+            </ul>`
+    }
+];
+
 class Card {
     constructor(rank, suit) {
         this.rank = rank;
@@ -377,6 +430,14 @@ class Game {
 }
 
 const game = new Game();
+
+const instructionsElement = document.getElementById('game-play-instructions');
+if (instructionsElement) {
+    instructionsElement.innerHTML = GAME_PLAY_TEXT.map(section => `
+        <h3>${section.title}</h3>
+        ${section.html}
+    `).join('');
+}
 
 document.getElementById('quickAttack').onclick = () => game.selectQuickAttack();
 document.getElementById('attack').onclick = () => game.selectShieldAttack();

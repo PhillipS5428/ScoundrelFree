@@ -5,6 +5,9 @@ Complete a merge into main to auto-deploy changes in Netlify.
 
 # Backlog
 ## Needs
+Clarify the game instructions and add examples. The shield mechanic can be hard to grasp for new users.
+
+Enable a button for users to start a new game without having to resfresh the page.
 
 ## Wants
 Add a game over screen.
