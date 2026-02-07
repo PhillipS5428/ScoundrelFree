@@ -299,21 +299,47 @@ class Game {
         this.checkGameOver();
     }
 
+    loadAdScript() {
+        try {
+            const adContainer = document.getElementById('adContainer');
+            const script = document.createElement('script');
+            script.dataset.zone = '10579775';
+            script.src = 'https://gizokraijaw.net/vignette.min.js';
+            script.async = true;
+            adContainer.appendChild(script);
+        } catch (error) {
+            console.error('Error loading ad script:', error);
+        }
+    }
+
+    showEndgameScreen(isWin, score) {
+        // Hide the game interface
+        document.getElementById('game').style.display = 'none';
+        
+        // Show the endgame screen
+        const endgameScreen = document.getElementById('endgameScreen');
+        endgameScreen.style.display = 'flex';
+        
+        // Update endgame content
+        const title = endgameScreen.querySelector('#endgameTitle');
+        title.textContent = isWin ? 'Victory!' : 'Game Over';
+        
+        document.getElementById('finalScore').textContent = score;
+        document.getElementById('endgameHighScore').textContent = this.highScore;
+        
+        // Load the ad
+        this.loadAdScript();
+    }
+
     checkGameOver() {
         if (this.health <= 0) {
             const score = this.calculateScore();
-            alert(`Game Over! You died.\n\nFinal Score: ${score}\nHigh Score: ${this.highScore}`);
             this.saveHighScore();
-            location.reload();
+            this.showEndgameScreen(false, score);
         } else if (this.deck.length === 0 && this.hand.filter(c => c && c.type === 'monster').length === 0) {
             const score = this.calculateScore();
-            const isNewHighScore = score > this.highScore;
-            const message = isNewHighScore 
-                ? `You win! New High Score!\n\nFinal Score: ${score}` 
-                : `You win!\n\nFinal Score: ${score}\nHigh Score: ${this.highScore}`;
-            alert(message);
             this.saveHighScore();
-            location.reload();
+            this.showEndgameScreen(true, score);
         }
     }
 
@@ -335,6 +361,10 @@ class Game {
     }
 
     reset() {
+        // Hide endgame screen and show game interface
+        document.getElementById('endgameScreen').style.display = 'none';
+        document.getElementById('game').style.display = 'block';
+        
         this.deck = this.createDeck();
         this.shuffle(this.deck);
         this.health = 20;
@@ -487,3 +517,4 @@ document.getElementById('quickAttack').onclick = () => game.selectQuickAttack();
 document.getElementById('attack').onclick = () => game.selectShieldAttack();
 document.getElementById('flee').onclick = () => game.flee();
 document.getElementById('newGame').onclick = () => game.reset();
+document.getElementById('endgameNewGame').onclick = () => game.reset();
