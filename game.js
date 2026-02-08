@@ -299,19 +299,6 @@ class Game {
         this.checkGameOver();
     }
 
-    loadAdScript() {
-        try {
-            const adContainer = document.getElementById('adContainer');
-            const script = document.createElement('script');
-            script.dataset.zone = '10579775';
-            script.src = 'https://gizokraijaw.net/vignette.min.js';
-            script.async = true;
-            adContainer.appendChild(script);
-        } catch (error) {
-            console.error('Error loading ad script:', error);
-        }
-    }
-
     showEndgameScreen(isWin, score) {
         // Hide the game interface
         document.getElementById('game').style.display = 'none';
@@ -326,9 +313,6 @@ class Game {
         
         document.getElementById('finalScore').textContent = score;
         document.getElementById('endgameHighScore').textContent = this.highScore;
-        
-        // Load the ad
-        this.loadAdScript();
     }
 
     checkGameOver() {
