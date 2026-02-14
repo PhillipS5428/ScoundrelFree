@@ -125,6 +125,7 @@ class Game {
         this.unusedPotions = 0;
         this.loadHighScore();
         this.updateDisplay();
+        this.log('Welcome to Endless Dungeons!');
         this.drawCard();
         this.snapToGame();
     }
@@ -151,34 +152,19 @@ class Game {
 
     selectQuickAttack() {
         this.selectedAttack = 'quick';
+        this.log('Quick Attack selected. Click a Monster to attack.');
         this.updateDisplay();
     }
 
     selectShieldAttack() {
         this.selectedAttack = 'shield';
+        this.log('Attack + Shield selected. Click a Monster to attack.');
         this.updateDisplay();
     }
 
-    attack() {
-        if (!this.shield) {
-            alert('No shield equipped!');
-            return;
-        }
-        const monsterIndex = this.hand.findIndex(c => c && c.type === 'monster');
-        if (monsterIndex !== -1) {
-            if (this.shield.value >= this.hand[monsterIndex].value) {
-                this.hand[monsterIndex] = null;
-                this.shield = null;
-                if (this.hand.filter(c => c).length === 1) this.drawCard();
-            } else {
-                alert('Shield too weak!');
-            }
-        } else {
-            alert('No monster to attack!');
-        }
-        this.updateDisplay();
-        this.checkGameOver();
-    }
+
+    // Method removed: attack() was unused and contained alerts.
+
 
     drawCard() {
         while (this.hand.length < 4) {
@@ -198,7 +184,7 @@ class Game {
 
         if (card.type === 'monster') {
             if (!this.selectedAttack) {
-                alert('Select an attack type first!');
+                this.log('Select an attack type first! Quick Attack or Attack + Shield.');
                 return;
             }
             const attackBonus = this.sword ? this.sword.value : 0;
@@ -206,6 +192,13 @@ class Game {
             if (this.selectedAttack === 'quick') {
                 const damage = Math.max(0, card.value - attackBonus);
                 this.health -= damage;
+                
+                if (damage > 0) {
+                    this.log(`Took ${damage} damage from the Monster!`);
+                } else {
+                    this.log('Defeated Monster without taking damage!');
+                }
+
                 this.hand[index] = null;
                 this.discard.push(card);
                 if (this.hand.filter(c => c).length === 1) this.drawCard();
@@ -213,11 +206,12 @@ class Game {
                 this.consecutiveFlees = 0;
             } else if (this.selectedAttack === 'shield') {
                 if (!this.shield) {
-                    alert('No shield equipped!');
+                    this.log('No Shield equipped! Cannot block.');
                     return;
                 }
                 const effectiveShieldValue = this.shield.value + attackBonus;
                 if (effectiveShieldValue >= card.value) {
+                    this.log('Shield blocked all damage!');
                     this.hand[index] = null;
                     this.shield.rank = card.rank;
                     this.shield.value = card.value;
@@ -228,6 +222,8 @@ class Game {
                     if (!this.shieldTrained) {
                         const damage = card.value - effectiveShieldValue;
                         this.health -= damage;
+                        this.log(`Shield absorbed some damage. Took ${damage} damage.`);
+                        
                         this.shield.rank = card.rank;
                         this.shield.value = card.value;
                         this.shieldTrained = true;
@@ -237,7 +233,7 @@ class Game {
                         this.lastFled = false;
                         this.consecutiveFlees = 0;
                     } else {
-                        alert('Shield too weak!');
+                        this.log('Shield too weak! Use a stronger shield or take the hit.');
                         return;
                     }
                 }
@@ -252,20 +248,29 @@ class Game {
                 this.shieldTrained = false;
                 this.absorbedMonster = null;
                 this.selectedAttack = 'shield';
+                this.log(`Equipped Shield (Strength ${card.value}).`);
                 this.hand[index] = null;
             } else if (card.type === 'sword') {
                 if (card.rank === 'A') {
-                    alert('You found the legendary sword!');
+                    this.log('Legendary Sword found! Attack +1.');
+                } else {
+                    this.log('Equipped Sword.');
                 }
                 this.sword = card;
                 this.hand[index] = null;
             } else if (card.type === 'potion') {
                 const healthBefore = this.health;
                 this.health = Math.min(20, this.health + card.value);
+                const restored = this.health - healthBefore;
+                
                 // Track unused potions if health doesn't increase
                 if (healthBefore === 20) {
                     this.unusedPotions += card.value;
+                    this.log(`Health full! Potion value ${card.value} added to score.`);
+                } else {
+                     this.log(`Restored ${restored} Health. Current Health: ${this.health}.`);
                 }
+                
                 this.discard.push(card);
                 this.hand[index] = null;
             }
@@ -278,11 +283,11 @@ class Game {
 
     flee() {
         if (this.lastFled) {
-            alert('Cannot flee consecutively!');
+            this.log('Cannot flee consecutively! You must fight.');
             return;
         }
         if (this.hand.filter(c => c).length !== 4) {
-            alert('Can only flee with a full room (4 cards)!');
+            this.log('Can only flee with a full room (4 cards)!');
             return;
         }
         // Move all cards in hand to bottom of deck
@@ -295,6 +300,7 @@ class Game {
         // Draw 4 new cards
         this.drawCard();
         this.lastFled = true;
+        this.log('You fled the room. New cards drawn.');
         this.updateDisplay();
         this.checkGameOver();
     }
@@ -362,6 +368,7 @@ class Game {
         this.lastFled = false;
         this.unusedPotions = 0;
         this.updateDisplay();
+        this.log('New game started! Good luck!');
         this.drawCard();
     }
 
@@ -373,6 +380,13 @@ class Game {
                     gameElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             }, 100);
+        }
+    }
+
+    log(message) {
+        const logElement = document.getElementById('gameLog');
+        if (logElement) {
+            logElement.textContent = message;
         }
     }
 

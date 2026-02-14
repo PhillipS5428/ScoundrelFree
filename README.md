@@ -22,8 +22,6 @@ Complete a merge into main to auto-deploy changes in Netlify.
 
 
 ## Wants
-Remove dialog boxes. Replace alerts with in-game notifications or modal dialogs.
-
 Add game difficulty. Easy, medium, hard, un-escapable?
 
 Change health to have a symbol (hearts) and health bar.
@@ -34,6 +32,7 @@ Open `index.html` in a web browser or serve the directory with a local server (e
 http://localhost:8000
 
 # Completed work
+2026-02-14 Replaced browser alerts with an in-game text log for seamless gameplay. Added detailed combat and event feedback messages.
 2026-02-14 Add a game over screen and victory screen with score display and play again button.
 Add a final score mechanism.
 Enable a button for users to start a new game without having to resfresh the page.
